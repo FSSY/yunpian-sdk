@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="yunpian sdk coding standard">
+    <description>yunpian sdk coding standard</description>
+
+    <!-- display progress -->
+    <arg value="p"/>
+    <arg name="colors"/>
+
+    <!-- inherit rules from: -->
+    <rule ref="PSR12"/>
+
+    <!-- Paths to check -->
+    <file>src</file>
+
+</ruleset>

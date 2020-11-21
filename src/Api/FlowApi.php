@@ -10,17 +10,21 @@ use Yunpian\Sdk\YunpianClient;
  *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD)
  */
-class FlowApi extends YunpianApi {
-    
-    const NAME = "flow";
+class FlowApi extends YunpianApi
+{
 
-    function init(YunpianClient $clnt) {
+    public const NAME = "flow";
+
+    public function init(YunpianClient $clnt)
+    {
         parent::init($clnt);
-        $this->host($clnt->conf(self::YP_FLOW_HOST, 'https://flow.yunpian.com'));
+        $this->host($clnt->conf(self::YP_FLOW_HOST));
     }
 
-    function name() {
+    public function name()
+    {
         return self::NAME;
     }
 
@@ -38,15 +42,18 @@ class FlowApi extends YunpianApi {
      * 电信：10000
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      *
      */
-    function get_package(array $param = []) {
+    public function getPackage(array $param = [])
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -85,15 +92,18 @@ class FlowApi extends YunpianApi {
      * _sign String 否 签名字段 参考使用加密 393d079e0a00912335adfe46f4a2e10f (不再使用)
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      *
      */
-    function recharge(array $param = []) {
+    public function recharge(array $param = [])
+    {
         static $must = [self::APIKEY,self::MOBILE];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -120,15 +130,18 @@ class FlowApi extends YunpianApi {
      * page_size 否 每页个数，最大100个，默认20个 20
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      *
      */
-    function pull_status(array $param = []) {
+    public function pullStatus(array $param = [])
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -141,5 +154,4 @@ class FlowApi extends YunpianApi {
         });
         return $this->path('pull_status.json')->post($param, $h, $r);
     }
-
 }

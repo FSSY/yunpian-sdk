@@ -2,14 +2,23 @@
 
 namespace Yunpian\Sdk;
 
+use Yunpian\Sdk\Api\ApiFactory;
+use Yunpian\Sdk\Api\FlowApi;
+use Yunpian\Sdk\Api\SignApi;
+use Yunpian\Sdk\Api\TplApi;
+use Yunpian\Sdk\Api\UserApi;
 use Yunpian\Sdk\Api\VideoSmsApi;
+use Yunpian\Sdk\Api\VoiceApi;
+use Yunpian\Sdk\Api\YunpianApi;
 
 /**
  *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD)
  */
-class YunpianClient implements Constant\YunpianConstant {
+class YunpianClient implements Constant\YunpianConstant
+{
     use YunpianGuzzle;
 
     /**
@@ -24,7 +33,8 @@ class YunpianClient implements Constant\YunpianConstant {
      */
     private $conf;
 
-    function __construct() {
+    public function __construct()
+    {
         $this->api = new Api\ApiFactory($this);
         $this->conf = new YunpianConf();
     }
@@ -36,7 +46,8 @@ class YunpianClient implements Constant\YunpianConstant {
      * @param array $conf
      * @return \Yunpian\SDK\YunpianClient
      */
-    static function create($apikey, array $conf = []) {
+    public static function create($apikey, array $conf = [])
+    {
         $clnt = new YunpianClient();
         $clnt->conf->init()->with($apikey, $conf);
         $clnt->initHttp($clnt->conf); // YunpianGuzzle->initHttp
@@ -46,25 +57,19 @@ class YunpianClient implements Constant\YunpianConstant {
     /**
      *
      * @param string $name
-     * @return \Yunpian\Sdk\Api\YunpianApi
+     * @return YunpianApi
      */
-    private function api($name) {
+    private function api($name)
+    {
         return $this->api->api($name);
-    }
-
-    /**
-     *
-     * @return SmsApi
-     */
-    function sms() {
-        return $this->api(Api\SmsApi::NAME);
     }
 
     /**
      *
      * @return VideoSmsApi
      */
-    function vsms() {
+    public function vsms()
+    {
         return $this->api(Api\VideoSmsApi::NAME);
     }
 
@@ -72,7 +77,8 @@ class YunpianClient implements Constant\YunpianConstant {
      *
      * @return UserApi
      */
-    function user() {
+    public function user()
+    {
         return $this->api(Api\UserApi::NAME);
     }
 
@@ -80,7 +86,8 @@ class YunpianClient implements Constant\YunpianConstant {
      *
      * @return VoiceApi
      */
-    function voice() {
+    public function voice()
+    {
         return $this->api(Api\VoiceApi::NAME);
     }
 
@@ -88,7 +95,8 @@ class YunpianClient implements Constant\YunpianConstant {
      *
      * @return SignApi
      */
-    function sign() {
+    public function sign()
+    {
         return $this->api(Api\SignApi::NAME);
     }
 
@@ -96,7 +104,8 @@ class YunpianClient implements Constant\YunpianConstant {
      *
      * @return TplApi
      */
-    function tpl() {
+    public function tpl()
+    {
         return $this->api(Api\TplApi::NAME);
     }
 
@@ -104,25 +113,27 @@ class YunpianClient implements Constant\YunpianConstant {
      *
      * @return FlowApi
      */
-    function flow() {
+    public function flow()
+    {
         return $this->api(Api\FlowApi::NAME);
     }
 
-    function conf($key = null) {
+    public function conf($key = null)
+    {
         return is_null($key) ? $this->conf : $this->conf->conf($key);
     }
 
-    function apikey() {
-        return $this->conf->apikey();
+    public function __destruct()
+    {
     }
 
-    function __destruct() {
-        // print "Destroying $this\n";
-    }
-
-    function __toString() {
+    public function __toString()
+    {
         return "YunpianClient-{$this->apikey()}";
     }
 
+    public function apikey()
+    {
+        return $this->conf->apikey();
+    }
 }
-

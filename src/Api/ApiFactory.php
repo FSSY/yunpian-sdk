@@ -7,15 +7,18 @@ namespace Yunpian\Sdk\Api;
  * @author dzh
  * @since 1.0
  */
-class ApiFactory {
+class ApiFactory
+{
 
     private $clnt;
 
-    function __construct($clnt) {
+    public function __construct($clnt)
+    {
         $this->clnt = $clnt;
     }
 
-    function api($name) {
+    public function api($name)
+    {
         $api = null;
         switch ($name) {
             case FlowApi::NAME:
@@ -46,5 +49,4 @@ class ApiFactory {
         $api->init($this->clnt);
         return $api;
     }
-
 }

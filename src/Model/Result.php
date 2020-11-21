@@ -2,6 +2,7 @@
 
 namespace Yunpian\Sdk\Model;
 
+use Exception;
 use Yunpian\Sdk\Constant\Code;
 
 /**
@@ -9,32 +10,15 @@ use Yunpian\Sdk\Constant\Code;
  *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD.ShortVariable)
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-class Result {
-
-    /**
-     *
-     * @var int
-     */
-    private $code = Code::OK;
-
-    /**
-     *
-     * @var string
-     */
-    private $msg;
-
-    /**
-     *
-     * @var string
-     */
-    private $detail;
-
-    /**
-     *
-     * @var \Exception
-     */
-    private $e;
+class Result
+{
+    private ?int $code = Code::OK;
+    private ?string $msg;
+    private ?string $detail;
+    private ?Exception $exception;
 
     /**
      * json
@@ -43,21 +27,24 @@ class Result {
      */
     private $data;
 
-    function __toString() {
+    public function __toString(): string
+    {
         return "{$this->code}-{$this->msg}-{$this->detail}";
     }
 
-    function isSucc() {
+    public function isSucc(): bool
+    {
         return $this->code == Code::OK;
     }
 
     /**
      *
-     * @param number $code
+     * @param null $code
      * @param boolean $rr
-     * @return number|\Yunpian\Sdk\Model\Resulot
+     * @return number|Result
      */
-    function code($code = null, $rr = false) {
+    public function code($code = null, $rr = false)
+    {
         if (isset($code) || $rr) {
             $this->code = $code;
             return $this;
@@ -67,12 +54,13 @@ class Result {
 
     /**
      *
-     * @param string $msg
+     * @param null $msg
      * @param boolean $rr
      *            force to return $this
-     * @return string|\Yunpian\Sdk\Model\Result
+     * @return string|Result
      */
-    function msg($msg = null, $rr = false) {
+    public function msg($msg = null, $rr = false)
+    {
         if (isset($msg) || $rr) {
             $this->msg = $msg;
             return $this;
@@ -82,12 +70,13 @@ class Result {
 
     /**
      *
-     * @param string $detail
+     * @param null $detail
      * @param boolean $rr
      *            force to return $this
-     * @return string|\Yunpian\Sdk\Model\Result
+     * @return string|Result
      */
-    function detail($detail = null, $rr = false) {
+    public function detail($detail = null, $rr = false)
+    {
         if (isset($detail) || $rr) {
             $this->detail = $detail;
             return $this;
@@ -97,30 +86,31 @@ class Result {
 
     /**
      *
-     * @param string $e
+     * @param null $e
      * @param boolean $rr
-     * @return Exception|\Yunpian\Sdk\Model\Result
+     * @return Exception|Result
      */
-    function exception($e = null, $rr = false) {
+    public function exception($e = null, $rr = false)
+    {
         if (isset($e) || $rr) {
-            $this->e = $e;
+            $this->exception = $e;
             return $this;
         }
-        return $this->e;
+        return $this->exception;
     }
 
     /**
      *
-     * @param array $data
+     * @param null $data
      * @param boolean $rr
-     * @return array|\Yunpian\Sdk\Model\Result
+     * @return array|Result
      */
-    function data($data = null, $rr = false) {
+    public function data($data = null, $rr = false)
+    {
         if (isset($data) || $rr) {
             $this->data = $data;
             return $this;
         }
         return $this->data;
     }
-
 }

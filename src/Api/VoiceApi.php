@@ -10,17 +10,21 @@ use Yunpian\Sdk\YunpianClient;
  *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD)
  */
-class VoiceApi extends YunpianApi {
-    
-    const NAME = "voice";
+class VoiceApi extends YunpianApi
+{
 
-    function init(YunpianClient $clnt) {
+    public const NAME = "voice";
+
+    public function init(YunpianClient $clnt)
+    {
         parent::init($clnt);
-        $this->host($clnt->conf(self::YP_VOICE_HOST, 'https://voice.yunpian.com'));
+        $this->host($clnt->conf(self::YP_VOICE_HOST));
     }
 
-    function name() {
+    public function name()
+    {
         return self::NAME;
     }
 
@@ -53,14 +57,17 @@ class VoiceApi extends YunpianApi {
      * 如需透传固定号码则需要单独注册报备，为了确保号码真实有效，客服将要求您使用报备的号码拨打一次客服电话
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function send(array $param) {
+    public function send(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::CODE];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -87,14 +94,17 @@ class VoiceApi extends YunpianApi {
      * page_size 否 每页个数，最大100个，默认20个 20
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function pull_status(array $param) {
+    public function pullStatus(array $param)
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -107,5 +117,4 @@ class VoiceApi extends YunpianApi {
         });
         return $this->path("pull_status.json")->post($param, $h, $r);
     }
-
 }

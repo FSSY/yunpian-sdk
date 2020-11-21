@@ -7,20 +7,24 @@ use Yunpian\Sdk\YunpianClient;
 
 /**
  * https://www.yunpian.com/api2.0/user.html
- * 
+ *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD)
  */
-class UserApi extends YunpianApi {
-    
-    const NAME = "user";
+class UserApi extends YunpianApi
+{
 
-    function init(YunpianClient $clnt) {
+    public const NAME = "user";
+
+    public function init(YunpianClient $clnt)
+    {
         parent::init($clnt);
-        $this->host($clnt->conf(self::YP_USER_HOST, 'https://sms.yunpian.com'));
+        $this->host($clnt->conf(self::YP_USER_HOST));
     }
 
-    function name() {
+    public function name()
+    {
         return self::NAME;
     }
 
@@ -37,11 +41,14 @@ class UserApi extends YunpianApi {
      * @return Result
      *
      */
-    function get($param = []) {
+    public function get($param = [])
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -52,7 +59,7 @@ class UserApi extends YunpianApi {
             }
             return null;
         });
-        
+
         return $this->path('get.json')->post($param, $h, $r);
     }
 
@@ -80,11 +87,14 @@ class UserApi extends YunpianApi {
      * @return Result
      *
      */
-    function set(array $param = []) {
+    public function set(array $param = [])
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -95,5 +105,4 @@ class UserApi extends YunpianApi {
         });
         return $this->path('set.json')->post($param, $h, $r);
     }
-
 }

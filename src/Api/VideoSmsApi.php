@@ -2,6 +2,7 @@
 
 namespace Yunpian\Sdk\Api;
 
+use Yunpian\Sdk\Model\Result;
 use Yunpian\Sdk\YunpianClient;
 
 /**
@@ -9,45 +10,51 @@ use Yunpian\Sdk\YunpianClient;
  *
  * @author dzh
  * @since 1.0.2
+ * @SuppressWarnings(PHPMD)
  */
-class VideoSmsApi extends YunpianApi {
+class VideoSmsApi extends YunpianApi
+{
 
-    const NAME = "vsms";
+    public const NAME = "vsms";
 
-    function init(YunpianClient $clnt) {
+    public function init(YunpianClient $clnt)
+    {
         parent::init($clnt);
-        $this->host($clnt->conf(self::YP_VSMS_HOST, 'https://vsms.yunpian.com'));
+        $this->host($clnt->conf(self::YP_VSMS_HOST));
     }
 
-    function name() {
+    public function name()
+    {
         return self::NAME;
     }
 
     /**
      *
-     * @param param
-     *            apikey sign layout material
-     * @return \Yunpian\Sdk\Model\Result
+     * @param array $param apikey sign layout material
+     * @return Result
      */
-    function addTpl($param = []) {
+    public function addTpl($param = [])
+    {
         static $must = [self::APIKEY, self::SIGN, self::LAYOUT, self::MATERIAL];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc())
+        if (!$r->isSucc()) {
             return $r;
+        }
 
         $charset = $this->charset();
         $multipart = [];
 
         foreach ($param as $key => $value) {
-            if ($key == self::LAYOUT)
+            if ($key == self::LAYOUT) {
                 $multipart[] = ['name'    => $key, 'contents' => $value,
                                 'headers' => ['Content-Type' => "application/json;charset=$charset"]];
-            elseif ($key == self::MATERIAL)
+            } elseif ($key == self::MATERIAL) {
                 $multipart[] = ['name'    => $key, 'contents' => $value,
                                 'headers' => ['Content-Type' => "application/octet-stream;charset=$charset"]];
-            else
+            } else {
                 $multipart[] = ['name'    => $key, 'contents' => $value,
                                 'headers' => ['Content-Type' => "text/plain;charset=$charset"]];
+            }
         }
 
         $v = $this->version();
@@ -68,15 +75,16 @@ class VideoSmsApi extends YunpianApi {
     /**
      * 获取视频短信模版状态
      *
-     * @param param
-     *            apikey tpl_id
-     * @return \Yunpian\Sdk\Model\Result
+     * @param array $param apikey tpl_id
+     * @return Result
      */
-    function getTpl($param = []) {
+    public function getTpl($param = [])
+    {
         static $must = [self::APIKEY, self::TPL_ID];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc())
+        if (!$r->isSucc()) {
             return $r;
+        }
 
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
@@ -93,15 +101,16 @@ class VideoSmsApi extends YunpianApi {
     /**
      * 批量发送视频短信
      *
-     * @param param
-     *            apikey tpl_id mobile
-     * @return \Yunpian\Sdk\Model\Result
+     * @param array $param apikey tpl_id mobile
+     * @return Result
      */
-    function tplBatchSend(array $param) {
+    public function tplBatchSend(array $param)
+    {
         static $must = [self::APIKEY, self::MOBILE, self::TPL_ID];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc())
+        if (!$r->isSucc()) {
             return $r;
+        }
 
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
@@ -113,5 +122,4 @@ class VideoSmsApi extends YunpianApi {
         });
         return $this->path('tpl_batch_send.json')->post($param, $h, $r);
     }
-
 }

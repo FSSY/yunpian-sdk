@@ -2,25 +2,30 @@
 
 namespace Yunpian\Sdk\Api;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Yunpian\Sdk\Model\Result;
 use Yunpian\Sdk\YunpianClient;
 
 /**
  * https://www.yunpian.com/api2.0/sms.html
- * 
+ *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD)
  */
-class SmsApi extends YunpianApi {
-    
-    const NAME = "sms";
+class SmsApi extends YunpianApi
+{
 
-    function init(YunpianClient $clnt) {
+    public const NAME = "sms";
+
+    public function init(YunpianClient $clnt)
+    {
         parent::init($clnt);
-        $this->host($clnt->conf(self::YP_SMS_HOST, 'https://sms.yunpian.com'));
+        $this->host($clnt->conf(self::YP_SMS_HOST));
     }
 
-    function name() {
+    public function name()
+    {
         return self::NAME;
     }
 
@@ -57,14 +62,17 @@ class SmsApi extends YunpianApi {
      *
      * @deprecated
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function send(array $param) {
+    public function send(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::TEXT];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -108,14 +116,18 @@ class SmsApi extends YunpianApi {
      * http://your_receive_url_address
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
+     * @throws GuzzleException
      */
-    function single_send(array $param) {
+    public function singleSend(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::TEXT];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -156,14 +168,18 @@ class SmsApi extends YunpianApi {
      * http://your_receive_url_address
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
+     * @throws GuzzleException
      */
-    function batch_send(array $param) {
+    public function batchSend(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::TEXT];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -208,14 +224,18 @@ class SmsApi extends YunpianApi {
      * http://your_receive_url_address
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
+     * @throws GuzzleException
      */
-    function multi_send(array $param) {
+    public function multiSend(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::TEXT];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -242,14 +262,18 @@ class SmsApi extends YunpianApi {
      * page_size Integer 否 每页个数，最大100个，默认20个 20
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
+     * @throws GuzzleException
      */
-    function pull_status(array $param) {
+    public function pullStatus(array $param)
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -276,14 +300,17 @@ class SmsApi extends YunpianApi {
      * page_size Integer 否 每页个数，最大100个，默认20个 20
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function pull_reply(array $param) {
+    public function pullReply(array $param)
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -328,14 +355,17 @@ class SmsApi extends YunpianApi {
      * sort_fields 否 排序字段（暂未开放） 默认按提交时间降序
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function get_reply(array $param) {
+    public function getReply(array $param)
+    {
         static $must = [self::APIKEY,self::START_TIME,self::END_TIME,self::PAGE_NUM,self::PAGE_SIZE];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -362,14 +392,17 @@ class SmsApi extends YunpianApi {
      * text String 是 要检查的短信模板或者内容 这是一条测试短信
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function get_black_word(array $param) {
+    public function getBlackWord(array $param)
+    {
         static $must = [self::APIKEY,self::TEXT];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -408,14 +441,17 @@ class SmsApi extends YunpianApi {
      * page_size Integer 否 每页个数，最大100个 20
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function get_record(array $param) {
+    public function getRecord(array $param)
+    {
         static $must = [self::APIKEY,self::START_TIME,self::END_TIME];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -454,16 +490,19 @@ class SmsApi extends YunpianApi {
      * page_size Integer 否 每页个数，最大100个 20
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
+     * @throws GuzzleException
      */
-    function count(array $param) {
+    public function count(array $param)
+    {
         static $must = [self::APIKEY,self::START_TIME,self::END_TIME];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
-        $v = $this->version();
-        $h = new CommonResultHandler(function ($rsp) use ($v) {
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
+        $h = new CommonResultHandler(function ($rsp) {
             $total = $rsp[self::TOTAL];
             return is_null($total) ? 0 : $total;
         });
@@ -500,16 +539,20 @@ class SmsApi extends YunpianApi {
      * uid String 否 用户自定义唯一id。最大长度不超过256的字符串。 默认不开放，如有需要请联系客服申请 10001
      * </p>
      *
+     * @param array $param
+     * @return Result
+     * @throws GuzzleException
      * @deprecated
      *
-     * @param array $param            
-     * @return Result
      */
-    function tpl_send(array $param) {
+    public function tplSend(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::TPL_ID,self::TPL_VALUE];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -555,14 +598,17 @@ class SmsApi extends YunpianApi {
      *
      * @deprecated
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function tpl_single_send(array $param) {
+    public function tplSingleSend(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::TPL_ID,self::TPL_VALUE];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -608,14 +654,17 @@ class SmsApi extends YunpianApi {
      *
      * @deprecated
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function tpl_batch_send(array $param) {
+    public function tplBatchSend(array $param)
+    {
         static $must = [self::APIKEY,self::MOBILE,self::TPL_ID,self::TPL_VALUE];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -626,5 +675,4 @@ class SmsApi extends YunpianApi {
         });
         return $this->path('tpl_batch_send.json')->post($param, $h, $r);
     }
-
 }

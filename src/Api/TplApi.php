@@ -10,17 +10,21 @@ use Yunpian\Sdk\YunpianClient;
  *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD)
  */
-class TplApi extends YunpianApi {
-    
-    const NAME = "tpl";
+class TplApi extends YunpianApi
+{
 
-    function init(YunpianClient $clnt) {
+    public const NAME = "tpl";
+
+    public function init(YunpianClient $clnt)
+    {
         parent::init($clnt);
-        $this->host($clnt->conf(self::YP_TPL_HOST, 'https://sms.yunpian.com'));
+        $this->host($clnt->conf(self::YP_TPL_HOST));
     }
 
-    function name() {
+    public function name()
+    {
         return self::NAME;
     }
 
@@ -36,16 +40,17 @@ class TplApi extends YunpianApi {
      * tpl_id Long 否 模板id，64位长整形。指定id时返回id对应的默认 模板。未指定时返回所有默认模板 1
      * </p>
      *
-     * @param array $param
-     *            tpl_id
-     * @return
-     *
+     * @param array $param tpl_id
+     * @return Result|null
      */
-    function get_default(array $param) {
+    public function getDefault(array $param)
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -74,11 +79,14 @@ class TplApi extends YunpianApi {
      *            tpl_id
      * @return Result
      */
-    function get(array $param) {
+    public function get(array $param)
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -113,14 +121,17 @@ class TplApi extends YunpianApi {
      * zh_cn
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function add(array $param) {
+    public function add(array $param)
+    {
         static $must = [self::APIKEY,self::TPL_CONTENT];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -147,14 +158,17 @@ class TplApi extends YunpianApi {
      * tpl_id Long 是 模板id，64位长整形 9527
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      */
-    function del(array $param) {
+    public function del(array $param)
+    {
         static $must = [self::APIKEY,self::TPL_ID];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -191,16 +205,19 @@ class TplApi extends YunpianApi {
      * zh_cn
      * </p>
      *
-     * @param array $param            
+     * @param array $param
      * @return Result
      *
      */
-    function update(array $param) {
+    public function update(array $param)
+    {
         static $must = [self::APIKEY,self::TPL_ID,self::TPL_CONTENT];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
+        if (!$r->isSucc()) {
+            return $r;
+        }
         $v = $this->version();
-        
+
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
                 case self::VERSION_V1:
@@ -212,5 +229,4 @@ class TplApi extends YunpianApi {
         });
         return $this->path("update.json")->post($param, $h, $r);
     }
-
 }

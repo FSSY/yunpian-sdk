@@ -1,8 +1,5 @@
-.buildpath
-.project
-.settings/
+/vendor
 
-/vendor/
-composer.phar
-.vscode/
-.idea/
+/.vscode
+/.idea
+.DS_Store

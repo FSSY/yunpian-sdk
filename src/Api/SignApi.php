@@ -10,17 +10,21 @@ use Yunpian\Sdk\YunpianClient;
  *
  * @author dzh
  * @since 1.0
+ * @SuppressWarnings(PHPMD)
  */
-class SignApi extends YunpianApi {
-    
-    const NAME = "sign";
+class SignApi extends YunpianApi
+{
 
-    function init(YunpianClient $clnt) {
+    public const NAME = "sign";
+
+    public function init(YunpianClient $clnt)
+    {
         parent::init($clnt);
-        $this->host($clnt->conf(self::YP_SIGN_HOST, 'https://sms.yunpian.com'));
+        $this->host($clnt->conf(self::YP_SIGN_HOST));
     }
 
-    function name() {
+    public function name()
+    {
         return self::NAME;
     }
 
@@ -55,11 +59,14 @@ class SignApi extends YunpianApi {
      *            sign notify apply_vip is_only_global industry_type
      * @return Result
      */
-    function add(array $param = []) {
+    public function add(array $param = [])
+    {
         static $must = [self::APIKEY,self::SIGN];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -112,11 +119,14 @@ class SignApi extends YunpianApi {
      *            old_sign sign notify apply_vip is_only_global industry_type
      * @return Result
      */
-    function update(array $param) {
+    public function update(array $param)
+    {
         static $must = [self::APIKEY,self::OLD_SIGN];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -154,11 +164,14 @@ class SignApi extends YunpianApi {
      *            sign notify page_num page_size
      * @return Result
      */
-    function get(array $param) {
+    public function get(array $param)
+    {
         static $must = [self::APIKEY];
         $r = $this->verifyParam($param, $must);
-        if (!$r->isSucc()) return $r;
-        
+        if (!$r->isSucc()) {
+            return $r;
+        }
+
         $v = $this->version();
         $h = new CommonResultHandler(function ($rsp) use ($v) {
             switch ($v) {
@@ -169,5 +182,4 @@ class SignApi extends YunpianApi {
         });
         return $this->path('get.json')->post($param, $h, $r);
     }
-
 }

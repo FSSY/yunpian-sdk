@@ -7,28 +7,34 @@ namespace Yunpian\Sdk;
  * @author dzh
  * @since 1.0
  */
-class YunpianConf implements Constant\YunpianConstant {
-    
+class YunpianConf implements Constant\YunpianConstant
+{
+
     /**
      *
      * @var array
      */
-    private $conf = [];
+    private array $conf = [];
 
     /**
      * to upsert $conf
      *
-     * @param string $apikey            
-     * @param array $conf            
-     * @return \Yunpian\Sdk\YunpianConf
+     * @param string $apikey
+     * @param array $conf
+     * @return YunpianConf
      */
-    function with($apikey, array $conf = []) {
-        if (!empty($conf)) foreach ($conf as $key => $value) {
-            $this->conf[$key] = $value;
+    public function with(string $apikey, array $conf = []): YunpianConf
+    {
+        if (!empty($conf)) {
+            foreach ($conf as $key => $value) {
+                $this->conf[$key] = $value;
+            }
         }
-        
-        if (isset($apikey)) $this->conf[self::YP_APIKEY] = $apikey;
-        
+
+        if (isset($apikey)) {
+            $this->conf[self::YP_APIKEY] = $apikey;
+        }
+
         return $this;
     }
 
@@ -38,15 +44,16 @@ class YunpianConf implements Constant\YunpianConstant {
      *
      * </p>
      *
-     * @return Yunpian\Sdk\YunpianConf
+     * @return YunpianConf
      */
-    function init() {
+    public function init(): YunpianConf
+    {
         if (is_null($this->conf)) {
             $this->conf = [];
         }
-        
-        $yp = parse_ini_file("yunpian.ini");
-        foreach ($yp as $key => $value) {
+
+        $configs = parse_ini_file("yunpian.ini");
+        foreach ($configs as $key => $value) {
             $this->conf[$key] = $value;
         }
         return $this;
@@ -54,12 +61,15 @@ class YunpianConf implements Constant\YunpianConstant {
 
     /**
      *
-     * @param string $key            
-     * @param mixed $defval            
+     * @param null $key
+     * @param null $defval
      * @return mixed
      */
-    function conf($key = null, $defval = null) {
-        if (is_null($key)) return $this->conf;
+    public function conf($key = null, $defval = null)
+    {
+        if (is_null($key)) {
+            return $this->conf;
+        }
         $val = $this->conf[$key];
         return is_null($val) ? $defval : $val;
     }
@@ -68,8 +78,8 @@ class YunpianConf implements Constant\YunpianConstant {
      *
      * @return string
      */
-    function apikey() {
+    public function apikey(): string
+    {
         return $this->conf[self::YP_APIKEY];
     }
-
 }

@@ -7,12 +7,13 @@ namespace Yunpian\Sdk\Api;
  * @author dzh
  * @since 1.0
  */
-class VoidApi extends YunpianApi {
-    
-    const NAME = "void";
+class VoidApi extends YunpianApi
+{
 
-    function name() {
+    public const NAME = "void";
+
+    public function name(): string
+    {
         return self::NAME;
     }
-
 }
