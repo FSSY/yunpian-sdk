@@ -60,10 +60,11 @@ class SmsApi extends YunpianApi
      * 本条短信状态报告推送地址。短信发送后将向这个地址推送短信发送报告。"后台-系统设置-数据推送与获取”可以做批量设置。如果后台已经设置地址的情况下，单次请求内也包含此参数，将以请求内的推送地址为准。
      * </p>
      *
-     * @deprecated
-     *
      * @param array $param
      * @return Result
+     * @throws GuzzleException
+     * @deprecated
+     *
      */
     public function send(array $param)
     {

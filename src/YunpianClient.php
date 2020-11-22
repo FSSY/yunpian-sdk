@@ -5,6 +5,7 @@ namespace Yunpian\Sdk;
 use Yunpian\Sdk\Api\ApiFactory;
 use Yunpian\Sdk\Api\FlowApi;
 use Yunpian\Sdk\Api\SignApi;
+use Yunpian\Sdk\Api\SmsApi;
 use Yunpian\Sdk\Api\TplApi;
 use Yunpian\Sdk\Api\UserApi;
 use Yunpian\Sdk\Api\VideoSmsApi;
@@ -62,6 +63,15 @@ class YunpianClient implements Constant\YunpianConstant
     private function api($name)
     {
         return $this->api->api($name);
+    }
+
+    /**
+     *
+     * @return SmsApi
+     */
+    public function sms()
+    {
+        return $this->api(Api\SmsApi::NAME);
     }
 
     /**
