@@ -11,7 +11,7 @@ class VideoFrame
 {
     public $index = 1;
     public $playTimes = 1; // 播放次数
-    public $attachments; // FrameDatas' array
+    public $attachments = null; // FrameDatas' array
 
     /**
      * @SuppressWarnings(PHPMD.ShortVariable)

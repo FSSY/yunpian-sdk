@@ -15,9 +15,9 @@ class VideoLayout
 
     public ?string $vlVersion = "0.0.1"; // layout的版本号
 
-    public $subject;
+    public $subject = null;
 
-    public $frames;
+    public $frames = null;
 
     public function version($v = null, $rr = false)
     {

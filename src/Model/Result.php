@@ -16,16 +16,16 @@ use Yunpian\Sdk\Constant\Code;
 class Result
 {
     private ?int $code = Code::OK;
-    private ?string $msg;
-    private ?string $detail;
-    private ?Exception $exception;
+    private ?string $msg = null;
+    private ?string $detail = null;
+    private ?Exception $exception = null;
 
     /**
      * json
      *
      * @var mixed
      */
-    private $data;
+    private $data = null;
 
     public function __toString(): string
     {

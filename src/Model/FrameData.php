@@ -10,7 +10,7 @@ namespace Yunpian\Sdk\Model;
 class FrameData
 {
     public $index = 1;
-    public $fileName;
+    public $fileName = null;
 
     /**
      * @SuppressWarnings(PHPMD.ShortVariable)
